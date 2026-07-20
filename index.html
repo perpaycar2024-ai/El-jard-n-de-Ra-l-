@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>El Jardín de Raúl — Cuaderno Botánico</title>
+<!-- Enlace al Web App Manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#16161a">
+<!-- Tipografías de alta gama para el contraste característico de tu cuaderno -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Paleta sofisticada basada en grises premium y antracitas */
+  --bg-principal:    #16161a;
+  --bg-degrade:      #0f0f12;
+  --blanco-puro:     #ffffff;
+  --texto-secundario: #9a9a9f;
+  --linea-sutil:     rgba(255, 255, 255, 0.06);
+  
+  /* Semáforo de avisos en tonos pastel desaturados sofisticados */
+  --agua:           #8ccce3;
+  --abono:          #e6caa3;
+  --alerta:         #eba1a1;
+  
+  /* Efecto Cristal Esmerilado Premium */
+  --glass-bg:       rgba(255, 255, 255, 0.02);
+  --glass-border:   rgba(255, 255, 255, 0.05);
+  --glass-blur:     blur(20px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(180deg, var(--bg-principal) 0%, var(--bg-degrade) 100%);
+  background-attachment: fixed;
+  color: var(--blanco-puro);
+  min-height: 100vh;
+  letter-spacing: 0.02em;
+}
+
+/* VISTAS */
+.vista { display: none; }
+.vista.active { display: block; }
+
+/* CABECERA EXCLUSIVA */
+.header-container { padding: 4.5rem 1.5rem 2.5rem; text-align: center; position: relative; }
+.header-deco { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 12px; }
+.header-linea { height: 1px; width: 40px; background: linear-gradient(90deg, transparent, var(--linea-sutil)); }
+.header-linea.derecha { background: linear-gradient(90deg, var(--linea-sutil), transparent); }
+.header-hoja { font-size: 0.65rem; opacity: 0.5; font-weight: 400; letter-spacing: 0.4em; }
+.lista-titulo { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 400; color: var(--blanco-puro); letter-spacing: 0.08em; text-transform: uppercase; }
+.lista-subtitulo { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--texto-secundario); margin-top: 10px; font-weight: 400; }
+.header-separador { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px auto 0; width: 30%; opacity: 0.12; }
+.sep-linea { flex: 1; height: 1px; background: var(--blanco-puro); }
+.sep-rombo { font-size: 0.35rem; color: var(--blanco-puro); transform: rotate(45deg); width: 4px; height: 4px; background: var(--blanco-puro); }
+
+/* BOTÓN CONFIGURACIÓN Y BACK */
+.btn-config {
+  position: absolute; right: 24px; top: 2rem;
+  background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 50%; color: var(--blanco-puro); font-size: 1rem; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: all 0.3s ease; z-index: 10;
+}
+.btn-back {
+  position: absolute; left: 24px; top: 2rem;
+  background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 50%; color: var(--blanco-puro); font-size: 0.8rem; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: all 0.3s ease; z-index: 10;
+}
+
+/* GRID ESTILO CRISTAL */
+.grid-premium { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0 20px 30px; }
+
+.card-premium {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  cursor: pointer; position: relative;
+  transition: transform 0.2s ease, background-color 0.2s;
+}
+.card-premium:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.05); }
+
+.card-zona { aspect-ratio: 1 / 1.15; justify-content: center; align-items: center; padding: 15px 10px; }
+.zona-ico { font-size: 1.6rem; margin-bottom: 8px; opacity: 0.85; }
+.zona-nom { font-family: 'Cinzel', serif; font-size: 0.75rem; color: var(--blanco-puro); text-align: center; letter-spacing: 0.05em; margin-bottom: 4px; }
+.zona-contador { font-size: 0.52rem; font-weight: 500; letter-spacing: 0.05em; color: var(--texto-secundario); text-transform: uppercase; opacity: 0.7; }
+
+/* PLANTAS CARD - CORREGIDO PROPORCIÓN Y ESPACIOS */
+.card-planta { aspect-ratio: 1 / 1.75; }
+.img-pwa { width: 100%; height: 50%; object-fit: cover; background: rgba(255,255,255,0.01); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; filter: saturate(85%); border-bottom: 1px solid rgba(255,255,255,0.02); }
+
+.p-info-mini { padding: 12px 8px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; background: rgba(0,0,0,0.15); }
+.p-nom { font-family: 'Cinzel', serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--blanco-puro); margin-bottom: 6px; text-transform: uppercase; text-align: center; line-height: 1.2; }
+.p-meta-row { display: flex; flex-direction: column; gap: 3px; font-size: 0.58rem; font-weight: 400; margin-top: 2px; }
+
+/* AVISO INFERIOR INTEGRADO */
+.badge-texto-status {
+  font-size: 0.52rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 3px 4px; border-radius: 4px; margin-top: 5px; text-align: center; width: 100%;
+}
+.text-al-dia { background: rgba(255, 255, 255, 0.03); color: var(--texto-secundario); border: 1px solid rgba(255, 255, 255, 0.04); }
+.text-proximo { background: rgba(230, 202, 163, 0.06); color: var(--abono); border: 1px solid rgba(230, 202, 163, 0.12); }
+.text-alerta { background: rgba(235, 161, 161, 0.08); color: var(--alerta); border: 1px solid rgba(235, 161, 161, 0.15); }
+
+/* SECCIÓN CONTENEDORA PARA BOTÓN AÑADIR INTEGRADO */
+.container-boto-afegir { display: flex; justify-content: center; padding: 20px 20px 60px; }
+.btn-afegir-text {
+  background: transparent; border: 1px solid var(--glass-border); color: var(--blanco-puro);
+  font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 500; text-transform: uppercase;
+  letter-spacing: 0.2em; padding: 14px 40px; border-radius: 30px; cursor: pointer;
+  transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.btn-afegir-text:active { background: rgba(255, 255, 255, 0.04); border-color: rgba(255,255,255,0.2); transform: scale(0.97); }
+
+/* DETALLE DE EDICIÓN */
+#vista-ficha { display: none; position: fixed; inset: 0; background: var(--bg-principal); z-index: 100; overflow-y: auto; }
+.ficha-header-identificador { position: absolute; top: 28px; left: 80px; right: 24px; z-index: 110; pointer-events: none; }
+.ficha-identificador-titulo { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 500; color: var(--blanco-puro); letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 2px 10px rgba(0,0,0,0.5); text-transform: uppercase; }
+.ficha-hero { width: 100%; height: 42vh; object-fit: cover; }
+.ficha-content { padding: 35px 24px 50px; margin-top: -35px; background: linear-gradient(180deg, #1b1b22 0%, var(--bg-principal) 100%); border-radius: 24px 24px 0 0; position: relative; box-shadow: 0 -15px 40px rgba(0,0,0,0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-top: 1px solid var(--glass-border); }
+.seccion-pro { background: var(--glass-bg); padding: 22px; border-radius: 14px; margin-bottom: 16px; border: 1px solid var(--glass-border); }
+.input-edit { background: transparent; border: none; color: var(--blanco-puro); font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: 0.05em; width: 100%; outline: none; }
+
+/* NOTAS */
+.nota-card { background: rgba(255,255,255,0.01); padding: 16px; border-radius: 10px; margin-bottom: 10px; position: relative; font-size: 0.8rem; border: 1px solid var(--glass-border); line-height: 1.4; color: rgba(255,255,255,0.75); }
+.btn-del-nota { position: absolute; right: 14px; top: 14px; color: var(--alerta); background: none; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.4; }
+
+/* MODALES */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,10,12,0.85); z-index: 200; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+#modal-cambiar-foto { z-index: 300; }
+#modal-mensaje { z-index: 400; }
+.modal-box { background: #1c1c22; color: var(--blanco-puro); padding: 30px; border-radius: 16px; width: 100%; max-width: 350px; border: 1px solid var(--glass-border); box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+input, select { width: 100%; padding: 14px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.01); color: white; font-family: inherit; font-size: 0.88rem; outline: none; }
+input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
+
+/* BOTONES DE ACCIÓN */
+.btn-accion { width: 100%; padding: 15px; border-radius: 8px; border: 1px solid var(--glass-border); font-weight: 500; margin-top: 12px; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.72rem; background: transparent; color: white; transition: background 0.2s; }
+.btn-accion:active { background: rgba(255,255,255,0.03); }
+
+.foto-opcion-row { display: flex; gap: 8px; margin: 12px 0; }
+.btn-foto-op { flex: 1; padding: 12px 6px; border: 1px solid var(--glass-border); background: transparent; color: var(--texto-secundario); border-radius: 6px; font-size: 0.72rem; letter-spacing: 0.05em; font-family: inherit; cursor: pointer; }
+.btn-foto-op.active { background: rgba(255, 255, 255, 0.04); border-color: rgba(255,255,255,0.3); color: white; }
+.emoji-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 12px 0; max-height: 160px; overflow-y: auto; }
+.emoji-btn { padding: 12px; font-size: 1.2rem; background: rgba(255,255,255,0.01); border: 1px solid transparent; border-radius: 6px; cursor: pointer; }
+.emoji-btn.selected { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.03); }
+.btn-cambiar-foto { background: transparent; border: 1px solid var(--glass-border); color: var(--texto-secundario); border-radius: 8px; padding: 12px; font-size: 0.68rem; font-weight: 500; cursor: pointer; margin-top: 10px; width: 100%; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.btn-regar-zona { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--glass-border); background: var(--glass-bg); color: var(--blanco-puro); font-family: inherit; font-size: 0.68rem; font-weight: 500; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase; }
+.fecha-edit-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 0.72rem; opacity: 0.6; }
+.fecha-edit-row input[type="date"] { padding: 8px; margin: 0; font-size: 0.72rem; border-radius: 6px; width: auto; flex: 1; color-scheme: dark; }
+.fecha-edit-row button { padding: 8px 14px; border-radius: 6px; border: 1px solid var(--glass-border); font-size: 0.7rem; cursor: pointer; background: transparent; color: white; }
+</style>
+</head>
+<body>
+
+<!-- VISTA 1: HOME (ZONAS) -->
+<div id="vista-zonas" class="vista active">
+  <div class="header-container">
+    <button class="btn-config" onclick="abrirModalConfig()">⚙️</button>
+    <div class="header-deco"><div class="header-linea"></div><span class="header-hoja">JARDÍN</span><div class="header-linea derecha"></div></div>
+    <div class="lista-titulo">El Jardín de Raúl</div>
+    <div class="lista-subtitulo">Cuaderno de Ubicaciones</div>
+    <div class="header-separador"><div class="sep-linea"></div><div class="sep-rombo"></div><div class="sep-linea"></div></div>
+  </div>
+  <div id="grid-zonas" class="grid-premium"></div>
+  <div class="container-boto-afegir">
+    <button class="btn-afegir-text" onclick="abrirModalZona()">Añadir</button>
+  </div>
+</div>
+
+<!-- VISTA 2: INTERIOR DE UNA ZONA -->
+<div id="vista-plantas" class="vista">
+  <div class="header-container">
+    <button class="btn-back" onclick="navegarA('zonas')">←</button>
+    <div class="header-deco"><div class="header-linea"></div><span class="header-hoja">COLECCIÓN</span><div class="header-linea derecha"></div></div>
+    <div id="titulo-zona" class="lista-titulo">Zona</div>
+    <div class="lista-subtitulo">Colección Botánica</div>
+    <div class="header-separador"><div class="sep-linea"></div><div class="sep-rombo"></div><div class="sep-linea"></div></div>
+  </div>
+  <div style="padding: 0 20px 16px; display:flex; justify-content:flex-end;">
+    <button class="btn-regar-zona" onclick="regarZonaCompleta()">Riego Completo</button>
+  </div>
+  <div id="grid-plantas" class="grid-premium"></div>
+  <div class="container-boto-afegir">
+    <button class="btn-afegir-text" onclick="abrirModalPlanta()">Añadir</button>
+  </div>
+</div>
+
+<!-- VISTA 3: DETALLE / FICHA -->
+<div id="vista-ficha">
+  <button onclick="cerrarFicha()" style="position:fixed; top:24px; left:24px; width:40px; height:40px; border-radius:50%; border:1px solid var(--glass-border); background:rgba(0,0,0,0.4); color:white; z-index:110; cursor:pointer; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);">←</button>
+  
+  <div class="ficha-header-identificador">
+    <div id="ficha-nombre-cabecera" class="ficha-identificador-titulo">---</div>
+  </div>
+
+  <img id="ficha-img" class="ficha-hero" src="">
+  <div id="ficha-emoji-hero" style="display:none; width:100%; height:42vh; align-items:center; justify-content:center; font-size:5rem; background:rgba(255,255,255,0.01);">📋</div>
+  <div class="ficha-content">
+    <div class="seccion-pro" style="background:none; border:none; padding:0 0 15px;">
+      <span style="font-size:0.58rem; color:var(--texto-secundario); font-weight:600; letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:5px;">Editar nombre del espécimen</span>
+      <input type="text" id="edit-nombre" class="input-edit" onchange="saveEdit()">
+      <select id="edit-cat" style="background:transparent; color:var(--texto-secundario); border:none; font-size:0.72rem; font-weight:500; letter-spacing:0.1em; padding-left:0; text-transform:uppercase;" onchange="saveEdit()"></select>
+      <button class="btn-cambiar-foto" onclick="abrirModalCambiarFoto()">Reemplazar Imagen / Icono</button>
+    </div>
+    
+    <div class="seccion-pro">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+         <span style="color:var(--texto-secundario); font-weight:500; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase;">Frecuencia Riego (Días)</span>
+         <input type="number" id="edit-freq-riego" style="width:70px; margin:0; padding:8px; text-align:center;" onchange="saveEdit()">
+      </div>
+      <div id="info-riego" style="font-size:0.82rem; color:rgba(255,255,255,0.85);"></div>
+      <div class="fecha-edit-row">
+        <span>Ajustar fecha:</span>
+        <input type="date" id="fecha-riego-edit">
+        <button onclick="editarFechaRiego()">OK</button>
+      </div>
+      <button onclick="regarYa()" class="btn-accion" style="border-color:var(--agua); color:var(--agua);">Confirmar Riego Hoy</button>
+    </div>
+
+    <div class="seccion-pro">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+         <span style="color:var(--texto-secundario); font-weight:500; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase;">Frecuencia Abono (Días)</span>
+         <input type="number" id="edit-freq-abono" style="width:70px; margin:0; padding:8px; text-align:center;" onchange="saveEdit()">
+      </div>
+      <div id="info-abono" style="font-size:0.82rem; color:rgba(255,255,255,0.85); margin-bottom:10px;"></div>
+      <div class="fecha-edit-row" style="margin-bottom:12px;">
+        <span>Ajustar fecha:</span>
+        <input type="date" id="fecha-abono-edit">
+        <button onclick="editarFechaAbono()">OK</button>
+      </div>
+      <input type="text" id="tipo-abono-input" placeholder="Especificar tipo de abono..." style="margin-bottom:4px;">
+      <button onclick="abonarYa()" class="btn-accion" style="border-color:var(--abono); color:var(--abono);">Confirmar Abono Hoy</button>
+    </div>
+
+    <div class="seccion-pro">
+      <h3 style="margin-bottom:14px; font-family:'Cinzel', serif; font-size:0.85rem; font-weight:400; letter-spacing:0.05em;">Bitácora de Notas</h3>
+      <div id="lista-apuntes"></div>
+      <div style="display:flex; gap:8px; margin-top:14px;">
+          <input type="text" id="nueva-nota" placeholder="Escribe un apunte..." style="margin:0; flex:1;">
+          <button onclick="addNota()" style="background:transparent; border:1px solid var(--glass-border); color:white; border-radius:8px; width:48px; font-weight:400; font-size:1.2rem;">+</button>
+      </div>
+    </div>
+    <button onclick="eliminarPlanta()" style="width:100%; color:var(--alerta); opacity:0.3; background:none; border:none; font-size:0.68rem; margin-top:30px; cursor:pointer; letter-spacing:0.08em; text-transform:uppercase;">Archivar / Eliminar Registro</button>
+  </div>
+</div>
+
+<!-- MODAL: BACKUP & RESTORE -->
+<div id="modal-config" class="modal-overlay">
+  <div class="modal-box">
+    <h3 style="margin-bottom:14px; font-family:'Cinzel', serif; font-size:0.95rem; letter-spacing:0.05em; text-transform:uppercase;">Copia de Seguridad</h3>
+    <button class="btn-accion" style="border-color:var(--agua); color:var(--agua);" onclick="exportarDatos()">Exportar Copia (.json)</button>
+    <button class="btn-accion" style="border-color:var(--abono); color:var(--abono);" onclick="document.getElementById('input-importar').click()">Importar Copia</button>
+    <input type="file" id="input-importar" accept=".json" style="display:none;" onchange="importarDatos(this)">
+    <button onclick="cerrarModales()" style="width:100%; background:none; border:none; color:var(--texto-secundario); margin-top:16px; font-size:0.72rem; letter-spacing:0.05em; cursor:pointer; text-transform:uppercase;">Cerrar</button>
+  </div>
+</div>
+
+<!-- MODAL: NUEVA ZONA -->
+<div id="modal-zona" class="modal-overlay">
+  <div class="modal-box">
+    <h3 style="margin-bottom:14px; font-family:'Cinzel', serif; font-size:0.95rem; letter-spacing:0.05em; text-transform:uppercase;">Nueva Ubicación</h3>
+    <input type="text" id="z-nombre" placeholder="Nombre (ej. Biblioteca)...">
+    <input type="text" id="z-emoji" placeholder="Icono representativo..." value="🪴">
+    <button class="btn-accion" style="border-color:rgba(255,255,255,0.3); color:white;" onclick="crearZona()">Crear Zona</button>
+    <button onclick="cerrarModales()" style="width:100%; background:none; border:none; color:var(--texto-secundario); margin-top:16px; font-size:0.72rem; letter-spacing:0.05em; cursor:pointer; text-transform:uppercase;">Cancelar</button>
+  </div>
+</div>
+
+<!-- MODAL: NUEVA PLANTA -->
+<div id="modal-planta" class="modal-overlay">
+  <div class="modal-box" style="max-height:85vh; overflow-y:auto;">
+    <h3 style="margin-bottom:15px; font-family:'Cinzel', serif; font-size:0.95rem; letter-spacing:0.05em; text-transform:uppercase;">Nuevo Registro</h3>
+    <input type="text" id="ins-nombre" placeholder="Nombre de la variedad...">
+    
+    <div class="foto-opcion-row">
+      <button class="btn-foto-op active" id="new-op-foto" onclick="selModoNueva('foto')">Fotografía</button>
+      <button class="btn-foto-op" id="new-op-emoji" onclick="selModoNueva('emoji')">Icono</button>
+    </div>
+
+    <div id="new-panel-foto">
+      <div style="display:flex; gap:8px; margin:12px 0;">
+        <label style="flex:1; padding:12px 6px; border:1px solid var(--glass-border); border-radius:6px; text-align:center; font-size:0.68rem; letter-spacing:0.05em; color:white; cursor:pointer; background:rgba(255,255,255,0.01);">CÁMARA<input type="file" accept="image/*" capture="environment" style="display:none" onchange="handleImgSelect(this)"></label>
+        <label style="flex:1; padding:12px 6px; border:1px solid var(--glass-border); border-radius:6px; text-align:center; font-size:0.68rem; letter-spacing:0.05em; color:white; cursor:pointer; background:rgba(255,255,255,0.01);">GALERÍA<input type="file" accept="image/*" style="display:none" onchange="handleImgSelect(this)"></label>
+      </div>
+      <div id="status-img" style="font-size:0.68rem; text-align:center; color:var(--agua); display:none; margin-bottom:10px; letter-spacing:0.05em;">✓ Archivo multimedia vinculado</div>
+    </div>
+
+    <div id="new-panel-emoji" style="display:none;">
+      <div class="emoji-grid" id="new-emoji-grid"></div>
+    </div>
+
+    <div style="margin: 14px 0 4px; font-size: 0.62rem; color: var(--texto-secundario); text-transform: uppercase; letter-spacing: 0.08em;">Ciclos estimados (Días):</div>
+    <div style="display:flex; gap:8px;">
+      <input type="number" id="ins-freq-riego" placeholder="Riego" value="7">
+      <input type="number" id="ins-freq-abono" placeholder="Abono" value="30">
+    </div>
+
+    <div style="display:flex; gap:10px; margin-top:24px;">
+      <button onclick="cerrarModales()" style="flex:1; padding:12px; background:transparent; border:1px solid var(--glass-border); color:white; border-radius:8px; font-size:0.72rem; letter-spacing:0.05em; cursor:pointer; text-transform:uppercase;">Volver</button>
+      <button onclick="addPlant()" style="flex:1; padding:12px; background:transparent; border:1px solid rgba(255,255,255,0.2); color:white; border-radius:8px; font-weight:500; font-size:0.72rem; letter-spacing:0.05em; cursor:pointer; text-transform:uppercase;">Registrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: MULTIMEDIA EN FICHA -->
+<div id="modal-cambiar-foto" class="modal-overlay">
+  <div class="modal-box">
+    <h3 style="margin-bottom:14px; font-family:'Cinzel', serif; font-size:0.95rem; letter-spacing:0.05em; text-transform:uppercase;">Asignar Imagen</h3>
+    <div class="foto-opcion-row">
+      <button class="btn-foto-op active" id="op-foto" onclick="selModoCambio('foto')">Fotografía</button>
+      <button class="btn-foto-op" id="op-emoji" onclick="selModoCambio('emoji')">Icono</button>
+    </div>
+    <div id="panel-cambio-foto">
+      <div style="display:flex; gap:8px; margin:12px 0;">
+        <label style="flex:1; padding:12px 6px; border:1px solid var(--glass-border); border-radius:6px; text-align:center; font-size:0.68rem; color:white; cursor:pointer;">CÁMARA<input type="file" accept="image/*" capture="environment" style="display:none" onchange="handleCambioFoto(this)"></label>
+        <label style="flex:1; padding:12px 6px; border:1px solid var(--glass-border); border-radius:6px; text-align:center; font-size:0.68rem; color:white; cursor:pointer;">GALERÍA<input type="file" accept="image/*" style="display:none" onchange="handleCambioFoto(this)"></label>
+      </div>
+      <div id="status-cambio-foto" style="font-size:0.68rem; text-align:center; color:var(--agua); display:none; margin-bottom:10px;">✓ Nueva imagen lista</div>
+    </div>
+    <div id="panel-cambio-emoji" style="display:none;">
+      <div class="emoji-grid" id="emoji-grid"></div>
+    </div>
+    <div style="display:flex; gap:10px; margin-top:20px;">
+      <button onclick="cerrarModales()" style="flex:1; padding:12px; background:transparent; border:1px solid var(--glass-border); color:white; border-radius:8px; font-size:0.72rem; cursor:pointer;">CANCELAR</button>
+      <button onclick="guardarCambioImagen()" style="flex:1; padding:12px; background:transparent; border:1px solid rgba(255,255,255,0.2); color:white; border-radius:8px; font-weight:500; font-size:0.72rem; cursor:pointer;">GUARDAR</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOTIFICACIONES -->
+<div id="modal-mensaje" class="modal-overlay">
+  <div class="modal-box" style="text-align:center;">
+    <div id="msg-icono" style="font-size:1.8rem; margin-bottom:14px; opacity:0.6;">🌿</div>
+    <div id="msg-texto" style="font-size:0.82rem; line-height:1.5; margin-bottom:24px; color:rgba(255,255,255,0.75);"></div>
+    <div id="msg-botones" style="display:flex; gap:10px;"></div>
+  </div>
+</div>
+
+<script>
+let db;
+let selectedImgData = null;
+let selectedEmojiNueva = null;
+let modoNueva = 'foto';
+let zonaActual = '';
+let currentFichaId = null;
+const EMOJIS = ['🌿','🌸','🌹','🌷','🌻','💐','🌺','🍃','🌱','🌵','🪴','🌳','🌴','🍋','🍊','🍓','🫒','🎋','💜','🤍','🍀','🌼','🌾','🌝','🫧'];
+
+let _resolverMensaje = null;
+function mostrarMensaje(texto, opciones = {}) {
+    const { tipo = 'alert', icono = 'ℹ️' } = opciones;
+    return new Promise(resolve => {
+        _resolverMensaje = resolve;
+        document.getElementById('msg-icono').textContent = icono;
+        document.getElementById('msg-texto').textContent = texto;
+        const botones = document.getElementById('msg-botones');
+        if (tipo === 'confirm') {
+            botones.innerHTML = `
+                <button onclick="cerrarMensaje(false)" style="flex:1; padding:12px; background:transparent; border:1px solid var(--glass-border); color:white; border-radius:6px; font-size:0.72rem; font-weight:500; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em;">CANCELAR</button>
+                <button onclick="cerrarMensaje(true)" style="flex:1; padding:12px; background:transparent; border:1px solid rgba(255,255,255,0.15); color:white; border-radius:6px; font-size:0.72rem; font-weight:500; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em;">ACEPTAR</button>
+            `;
+        } else {
+            botones.innerHTML = `
+                <button onclick="cerrarMensaje(true)" style="flex:1; padding:12px; background:transparent; border:1px solid rgba(255,255,255,0.15); color:white; border-radius:6px; font-size:0.72rem; font-weight:500; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em;">OK</button>
+            `;
+        }
+        document.getElementById('modal-mensaje').style.display = 'flex';
+    });
+}
+function cerrarMensaje(resultado) {
+    document.getElementById('modal-mensaje').style.display = 'none';
+    if (_resolverMensaje) { _resolverMensaje(resultado); _resolverMensaje = null; }
+}
+
+function iniciarApp() {
+    const request = indexedDB.open('JardinRaulDB_v3', 5);
+    request.onupgradeneeded = e => {
+        const dbInst = e.target.result;
+        if(!dbInst.objectStoreNames.contains('plantas')) dbInst.createObjectStore('plantas', { keyPath: 'id' });
+        if(!dbInst.objectStoreNames.contains('zonas')) dbInst.createObjectStore('zonas', { keyPath: 'nombre' });
+    };
+    request.onsuccess = e => { db = e.target.result; comprobarZonasBase(); };
+}
+
+function comprobarZonasBase() {
+    db.transaction(['zonas'], 'readonly').objectStore('zonas').getAll().onsuccess = e => {
+        if(e.target.result.length === 0) {
+            const tx = db.transaction(['zonas'], 'readwrite');
+            tx.objectStore('zonas').add({ nombre: 'Terraza', emoji: '☀️' });
+            tx.objectStore('zonas').add({ nombre: 'Salón', emoji: '🛋️' });
+            tx.oncomplete = () => { cargarZonas(); };
+        } else {
+            cargarZonas();
+        }
+    };
+}
+
+function navegarA(vista) {
+    document.querySelectorAll('.vista').forEach(v => v.classList.remove('active'));
+    document.getElementById('vista-' + vista).classList.add('active');
+    if(vista === 'zonas') cargarZonas();
+}
+
+function cargarZonas() {
+    const cont = document.getElementById('grid-zonas');
+    cont.innerHTML = '';
+    
+    db.transaction(['plantas'], 'readonly').objectStore('plantas').getAll().onsuccess = ePlanta => {
+        const todasLasPlantas = ePlanta.target.result;
+        
+        db.transaction(['zonas'], 'readonly').objectStore('zonas').getAll().onsuccess = eZona => {
+            const listado = eZona.target.result;
+            listado.forEach(z => {
+                const totalPlantasZona = todasLasPlantas.filter(p => p.category === z.nombre).length;
+                const textoContador = totalPlantasZona === 1 ? "1 espécimen" : `${totalPlantasZona} especímenes`;
+                
+                cont.innerHTML += `
+                    <div class="card-premium card-zona" onclick="entrarZona('${z.nombre}')">
+                        <div class="zona-ico">${z.emoji || '🪴'}</div>
+                        <div class="zona-nom">${z.nombre}</div>
+                        <div class="zona-contador">${textoContador}</div>
+                    </div>`;
+            });
+            const selectFicha = document.getElementById('edit-cat');
+            selectFicha.innerHTML = listado.map(z => `<option value="${z.nombre}">${z.nombre.toUpperCase()}</option>`).join('');
+        };
+    };
+}
+
+function entrarZona(nombre) {
+    zonaActual = nombre;
+    document.getElementById('titulo-zona').textContent = nombre;
+    renderPlantas();
+    navegarA('plantas');
+}
+
+function abrirModalZona() { document.getElementById('modal-zona').style.display = 'flex'; }
+function abrirModalConfig() { document.getElementById('modal-config').style.display = 'flex'; }
+
+function crearZona() {
+    const nombre = document.getElementById('z-nombre').value.trim();
+    const emoji = document.getElementById('z-emoji').value.trim() || '🪴';
+    if(!nombre) return;
+    db.transaction(['zonas'], 'readwrite').objectStore('zonas').add({ nombre, emoji }).onsuccess = () => {
+        cerrarModales(); cargarZonas(); document.getElementById('z-nombre').value = '';
+    };
+}
+
+function daysSince(iso) { return Math.floor(Math.abs(new Date()-new Date(iso))/86400000); }
+
+function renderPlantas() {
+    const cont = document.getElementById('grid-plantas');
+    cont.innerHTML = '';
+    db.transaction(['plantas'], 'readonly').objectStore('plantas').getAll().onsuccess = e => {
+        const plants = e.target.result.filter(p => p.category === zonaActual);
+        if(!plants.length) {
+            cont.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:50px; opacity:0.2; font-style:italic; font-size:0.75rem; letter-spacing:0.05em;">Galería vacía en esta zona...</div>`;
+            return;
+        }
+        plants.forEach(p => {
+            const imgHTML = p.foto
+                ? `<img src="${p.foto}" class="img-pwa">`
+                : `<div class="img-pwa">${p.emoji || '🪴'}</div>`;
+                
+            const dRiego = daysSince(p.lastWatered);
+            const freqR = p.freqRiego || 7;
+            
+            let txtAlertaHTML = `<div class="badge-texto-status text-al-dia">Al día</div>`;
+            if(dRiego >= freqR) {
+                txtAlertaHTML = `<div class="badge-texto-status text-alerta">Atención</div>`;
+            } else if(dRiego >= (freqR - 2)) {
+                txtAlertaHTML = `<div class="badge-texto-status text-proximo">Próximo</div>`;
+            }
+
+            cont.innerHTML += `
+            <div class="card-premium card-planta" onclick="abrirFicha('${p.id}')">
+                ${imgHTML}
+                <div class="p-info-mini">
+                    <div class="p-nom">${p.name}</div>
+                    <div class="p-meta-row">
+                        <span style="color:rgba(255,255,255,0.4)">Riego: <b style="color:var(--agua); font-weight:500;">${dRiego}d</b><small style="opacity:0.3;">/${freqR}d</small></span>
+                        <span style="color:rgba(255,255,255,0.4)">Abono: <b style="color:var(--abono); font-weight:500;">${daysSince(p.lastFertilized)}d</b><small style="opacity:0.3;">/${p.freqAbono || 30}d</small></span>
+                    </div>
+                    ${txtAlertaHTML}
+                </div>
+            </div>`;
+        });
+    };
+}
+
+function selModoNueva(modo) {
+    modoNueva = modo;
+    document.getElementById('new-panel-foto').style.display  = modo === 'foto' ? 'block' : 'none';
+    document.getElementById('new-panel-emoji').style.display = modo === 'emoji' ? 'block' : 'none';
+    document.getElementById('new-op-foto').classList.toggle('active', modo === 'foto');
+    document.getElementById('new-op-emoji').classList.toggle('active', modo === 'emoji');
+    if (modo === 'emoji' && !document.getElementById('new-emoji-grid').innerHTML) {
+        selectedEmojiNueva = EMOJIS[0];
+        document.getElementById('new-emoji-grid').innerHTML = EMOJIS.map(e =>
+            `<button class="emoji-btn ${e === selectedEmojiNueva ? 'selected' : ''}" onclick="selEmojiNueva('${e}')">${e}</button>`
+        ).join('');
+    }
+}
+function selEmojiNueva(e) {
+    selectedEmojiNueva = e;
+    document.querySelectorAll('#new-emoji-grid .emoji-btn').forEach(b => b.classList.toggle('selected', b.textContent === e));
+}
+function handleImgSelect(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => { selectedImgData = e.target.result; document.getElementById('status-img').style.display = 'block'; };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function abrirModalPlanta() { 
+    document.getElementById('modal-planta').style.display = 'flex'; 
+    selModoNueva('foto');
+}
+
+function addPlant() {
+    const name = document.getElementById('ins-nombre').value.trim();
+    const fRiego = parseInt(document.getElementById('ins-freq-riego').value) || 7;
+    const fAbono = parseInt(document.getElementById('ins-freq-abono').value) || 30;
+    if(!name) { mostrarMensaje("Introduce el nombre de la planta.", {icono: '⚠️'}); return; }
+    
+    const foto  = modoNueva === 'foto' ? (selectedImgData || null) : null;
+    const emoji = modoNueva === 'emoji' ? (selectedEmojiNueva || '🌿') : null;
+    
+    const p = { 
+        id: Date.now().toString(), name, category: zonaActual, foto, emoji, 
+        freqRiego: fRiego, freqAbono: fAbono,
+        lastWatered: new Date().toISOString(), lastFertilized: new Date().toISOString(), 
+        ultimoAbonoUsado: 'Ninguno', notas: [] 
+    };
+    
+    const tx = db.transaction(['plantas'], 'readwrite');
+    tx.objectStore('plantas').add(p);
+    tx.oncomplete = () => {
+        renderPlantas(); cerrarModales();
+        selectedImgData = null; selectedEmojiNueva = null;
+        document.getElementById('status-img').style.display = 'none';
+        document.getElementById('ins-nombre').value = '';
+        document.getElementById('new-emoji-grid').innerHTML = '';
+    };
+}
+
+function abrirFicha(id) {
+    currentFichaId = id;
+    db.transaction(['plantas']).objectStore('plantas').get(id).onsuccess = e => {
+        const p = e.target.result;
+        document.getElementById('edit-nombre').value = p.name;
+        document.getElementById('ficha-nombre-cabecera').textContent = p.name;
+        document.getElementById('edit-cat').value = p.category;
+        document.getElementById('edit-freq-riego').value = p.freqRiego || 7;
+        document.getElementById('edit-freq-abono').value = p.freqAbono || 30;
+        
+        const imgEl = document.getElementById('ficha-img');
+        const emojiEl = document.getElementById('ficha-emoji-hero');
+        if (p.foto) { imgEl.src = p.foto; imgEl.style.display = 'block'; emojiEl.style.display = 'none'; }
+        else { imgEl.style.display = 'none'; emojiEl.style.display = 'flex'; emojiEl.textContent = p.emoji || '🪴'; }
+        
+        document.getElementById('info-riego').innerHTML = `Último riego realizado hace <b>${daysSince(p.lastWatered)}</b> días (Fecha: ${p.fechaRiego || '--/--'})`;
+        document.getElementById('fecha-riego-edit').value = p.lastWatered ? p.lastWatered.slice(0,10) : '';
+        
+        document.getElementById('info-abono').innerHTML = `Último abono realizado hace <b>${daysSince(p.lastFertilized)}</b> días (Fecha: ${p.fechaAbono || '--/--'})<br><small style="font-weight:normal;opacity:0.5;">Fórmula: ${p.ultimoAbonoUsado || 'Ninguno'}</small>`;
+        document.getElementById('fecha-abono-edit').value = p.lastFertilized ? p.lastFertilized.slice(0,10) : '';
+        
+        renderNotas(p.notas || []);
+        document.getElementById('vista-ficha').style.display = 'block';
+    };
+}
+
+function saveEdit() {
+    const newName = document.getElementById('edit-nombre').value.trim();
+    const newCat = document.getElementById('edit-cat').value;
+    const newFR = parseInt(document.getElementById('edit-freq-riego').value) || 7;
+    const newFA = parseInt(document.getElementById('edit-freq-abono').value) || 30;
+    if(!newName) return;
+    updatePlantaData(p => { 
+        p.name = newName; p.category = newCat; p.freqRiego = newFR; p.freqAbono = newFA; 
+    }, () => { 
+        document.getElementById('ficha-nombre-cabecera').textContent = newName;
+        renderPlantas(); 
+    });
+}
+
+function updatePlantaData(callback, onFinish) {
+    const tx = db.transaction(['plantas'], 'readwrite');
+    const store = tx.objectStore('plantas');
+    store.get(currentFichaId).onsuccess = e => { const p = e.target.result; callback(p); store.put(p); tx.oncomplete = onFinish; };
+}
+
+function regarYa() {
+    updatePlantaData(p => {
+        p.lastWatered = new Date().toISOString();
+        p.fechaRiego = new Date().toLocaleDateString('es-ES', {day:'2-digit', month:'2-digit'});
+    }, () => abrirFicha(currentFichaId));
+}
+
+function abonarYa() {
+    const abonoUsado = document.getElementById('tipo-abono-input').value.trim() || 'Genérico';
+    updatePlantaData(p => {
+        p.lastFertilized = new Date().toISOString();
+        p.ultimoAbonoUsado = abonoUsado;
+        p.fechaAbono = new Date().toLocaleDateString('es-ES', {day:'2-digit', month:'2-digit'});
+    }, () => { document.getElementById('tipo-abono-input').value = ''; abrirFicha(currentFichaId); });
+}
+
+function editarFechaRiego() {
+    const val = document.getElementById('fecha-riego-edit').value;
+    if(!val) return;
+    const iso = new Date(val + 'T12:00:00').toISOString();
+    const fechaCorta = new Date(val + 'T12:00:00').toLocaleDateString('es-ES', {day:'2-digit', month:'2-digit'});
+    updatePlantaData(p => { p.lastWatered = iso; p.fechaRiego = fechaCorta; }, () => abrirFicha(currentFichaId));
+}
+
+function editarFechaAbono() {
+    const val = document.getElementById('fecha-abono-edit').value;
+    if(!val) return;
+    const iso = new Date(val + 'T12:00:00').toISOString();
+    const fechaCorta = new Date(val + 'T12:00:00').toLocaleDateString('es-ES', {day:'2-digit', month:'2-digit'});
+    updatePlantaData(p => { p.lastFertilized = iso; p.fechaAbono = fechaCorta; }, () => abrirFicha(currentFichaId));
+}
+
+function renderNotas(notes) {
+    document.getElementById('lista-apuntes').innerHTML = notes.map((n, index) => `
+        <div class="nota-card">
+            <span style="font-size:0.65rem; opacity:0.3; display:block; margin-bottom:6px; font-weight:500;">${n.fecha}</span>
+            <div style="padding-right:30px; line-height:1.4;">${n.texto}</div>
+            <button class="btn-del-nota" onclick="deleteNota(${index})">×</button>
+        </div>`).join('');
+}
+
+function addNota() {
+    const texto = document.getElementById('nueva-nota').value.trim();
+    if(!texto) return;
+    updatePlantaData(p => { 
+        if(!p.notas) p.notas = []; 
+        p.notas.unshift({ texto, fecha: new Date().toLocaleDateString() }); 
+    }, () => { document.getElementById('nueva-nota').value=''; abrirFicha(currentFichaId); });
+}
+
+async function deleteNota(index) {
+    const ok = await mostrarMensaje("¿Remover esta nota de la bitácora?", {tipo:'confirm', icono:'🗑️'});
+    if (ok) updatePlantaData(p => { p.notas.splice(index, 1); }, () => abrirFicha(currentFichaId));
+}
+
+async function eliminarPlanta() {
+    const ok = await mostrarMensaje("¿Confirms que deseas archivar y borrar este espécimen?", {tipo:'confirm', icono:'🗑️'});
+    if (ok) {
+        const tx = db.transaction(['plantas'], 'readwrite');
+        tx.objectStore('plantas').delete(currentFichaId);
+        tx.oncomplete = () => { cerrarFicha(); };
+    }
+}
+
+async function regarZonaCompleta() {
+    const ok = await mostrarMensaje(`¿Registrar ciclo completo para la zona "${zonaActual}"?`, {tipo:'confirm', icono:'💧'});
+    if (!ok) return;
+    const tx = db.transaction(['plantas'], 'readwrite');
+    const store = tx.objectStore('plantas');
+    store.getAll().onsuccess = e => {
+        const plantas = e.target.result.filter(p => p.category === zonaActual);
+        const ahora = new Date().toISOString();
+        const fechaCorta = new Date().toLocaleDateString('es-ES', {day:'2-digit', month:'2-digit'});
+        plantas.forEach(p => { p.lastWatered = ahora; p.fechaRiego = fechaCorta; store.put(p); });
+        tx.oncomplete = () => renderPlantas();
+    };
+}
+
+let modoCambio = 'foto'; let nuevaFotoData = null; let nuevoEmojiSeleccionado = null;
+function abrirModalCambiarFoto() {
+    modoCambio = 'foto'; nuevaFotoData = null; nuevoEmojiSeleccionado = null;
+    selModoCambio('foto');
+    document.getElementById('status-cambio-foto').style.display = 'none';
+    document.getElementById('emoji-grid').innerHTML = EMOJIS.map(e => `<button class="emoji-btn" onclick="selEmoji('${e}')">${e}</button>`).join('');
+    document.getElementById('modal-cambiar-foto').style.display = 'flex';
+}
+function selModoCambio(modo) {
+    modoCambio = modo;
+    document.getElementById('panel-cambio-foto').style.display  = modo === 'foto' ? 'block' : 'none';
+    document.getElementById('panel-cambio-emoji').style.display = modo === 'emoji' ? 'block' : 'none';
+    document.getElementById('op-foto').classList.toggle('active', modo === 'foto');
+    document.getElementById('op-emoji').classList.toggle('active', modo === 'emoji');
+    if (modo === 'emoji') nuevoEmojiSeleccionado = EMOJIS[0];
+}
+function selEmoji(e) {
+    nuevoEmojiSeleccionado = e;
+    document.querySelectorAll('.emoji-btn').forEach(b => b.classList.toggle('selected', b.textContent === e));
+}
+function handleCambioFoto(input) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = ev => { nuevaFotoData = ev.target.result; document.getElementById('status-cambio-foto').style.display = 'block'; };
+    reader.readAsDataURL(input.files[0]);
+}
+function guardarCambioImagen() {
+    updatePlantaData(p => {
+        if (modoCambio === 'foto' && nuevaFotoData) { p.foto = nuevaFotoData; p.emoji = null; }
+        else if (modoCambio === 'emoji' && nuevoEmojiSeleccionado) { p.emoji = nuevoEmojiSeleccionado; p.foto = null; }
+    }, () => { cerrarModales(); abrirFicha(currentFichaId); });
+}
+
+function exportarDatos() {
+    const backup = { plantas: [], zonas: [] };
+    db.transaction(['plantas'], 'readonly').objectStore('plantas').getAll().onsuccess = e1 => {
+        backup.plantas = e1.target.result;
+        db.transaction(['zonas'], 'readonly').objectStore('zonas').getAll().onsuccess = e2 => {
+            backup.zonas = e2.target.result;
+            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `jardin_raul_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            cerrarModales();
+            mostrarMensaje("Copia de seguridad exportada con éxito.", {icono: '💾'});
+        };
+    };
+}
+
+function importarDatos(input) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = async e => {
+        try {
+            const data = JSON.parse(e.target.result);
+            if (!data.plantas || !data.zonas) throw new Error();
+            
+            const conf = await mostrarMensaje("¿Importar datos? Esto sustituirá la colección actual.", {tipo: 'confirm', icono: '⚠️'});
+            if (!conf) return;
+
+            const txZ = db.transaction(['zonas'], 'readwrite');
+            const storeZ = txZ.objectStore('zonas');
+            storeZ.clear().onsuccess = () => {
+                data.zonas.forEach(z => storeZ.add(z));
+            };
+
+            const txP = db.transaction(['plantas'], 'readwrite');
+            const storeP = txP.objectStore('plantas');
+            storeP.clear().onsuccess = () => {
+                data.plantas.forEach(p => storeP.add(p));
+            };
+
+            txP.oncomplete = () => {
+                cerrarModales();
+                cargarZonas();
+                mostrarMensaje("Colección restaurada perfectamente.", {icono: '✅'});
+            };
+        } catch(err) {
+            mostrarMensaje("Archivo no válido para la base de datos.", {icono: '❌'});
+        }
+    };
+    reader.readAsText(input.files[0]);
+}
+
+function cerrarFicha() { document.getElementById('vista-ficha').style.display = 'none'; renderPlantas(); }
+function cerrarModales() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
+
+iniciarApp();
+
+// Registro del Service Worker para capacidades PWA y soporte offline
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Service Worker registrado con éxito:', reg.scope))
+      .catch(err => console.error('Error al registrar el Service Worker:', err));
+  });
+}
+</script>
+</body>
+</html>
