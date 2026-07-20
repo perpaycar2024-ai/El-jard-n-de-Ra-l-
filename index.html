@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -29,6 +29,7 @@
   --glass-blur:     blur(20px);
 }
 
+
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body {
   font-family: 'Montserrat', sans-serif;
@@ -39,9 +40,11 @@ body {
   letter-spacing: 0.02em;
 }
 
+
 /* VISTAS */
 .vista { display: none; }
 .vista.active { display: block; }
+
 
 /* CABECERA EXCLUSIVA */
 .header-container { padding: 4.5rem 1.5rem 2.5rem; text-align: center; position: relative; }
@@ -54,6 +57,7 @@ body {
 .header-separador { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px auto 0; width: 30%; opacity: 0.12; }
 .sep-linea { flex: 1; height: 1px; background: var(--blanco-puro); }
 .sep-rombo { font-size: 0.35rem; color: var(--blanco-puro); transform: rotate(45deg); width: 4px; height: 4px; background: var(--blanco-puro); }
+
 
 /* BOTÓN CONFIGURACIÓN Y BACK */
 .btn-config {
@@ -69,8 +73,10 @@ body {
   transition: all 0.3s ease; z-index: 10;
 }
 
+
 /* GRID ESTILO CRISTAL */
 .grid-premium { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0 20px 30px; }
+
 
 .card-premium {
   background: var(--glass-bg);
@@ -84,18 +90,22 @@ body {
 }
 .card-premium:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.05); }
 
+
 .card-zona { aspect-ratio: 1 / 1.15; justify-content: center; align-items: center; padding: 15px 10px; }
 .zona-ico { font-size: 1.6rem; margin-bottom: 8px; opacity: 0.85; }
 .zona-nom { font-family: 'Cinzel', serif; font-size: 0.75rem; color: var(--blanco-puro); text-align: center; letter-spacing: 0.05em; margin-bottom: 4px; }
 .zona-contador { font-size: 0.52rem; font-weight: 500; letter-spacing: 0.05em; color: var(--texto-secundario); text-transform: uppercase; opacity: 0.7; }
 
+
 /* PLANTAS CARD - CORREGIDO PROPORCIÓN Y ESPACIOS */
 .card-planta { aspect-ratio: 1 / 1.75; }
 .img-pwa { width: 100%; height: 50%; object-fit: cover; background: rgba(255,255,255,0.01); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; filter: saturate(85%); border-bottom: 1px solid rgba(255,255,255,0.02); }
 
+
 .p-info-mini { padding: 12px 8px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; background: rgba(0,0,0,0.15); }
 .p-nom { font-family: 'Cinzel', serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--blanco-puro); margin-bottom: 6px; text-transform: uppercase; text-align: center; line-height: 1.2; }
 .p-meta-row { display: flex; flex-direction: column; gap: 3px; font-size: 0.58rem; font-weight: 400; margin-top: 2px; }
+
 
 /* AVISO INFERIOR INTEGRADO */
 .badge-texto-status {
@@ -105,6 +115,7 @@ body {
 .text-al-dia { background: rgba(255, 255, 255, 0.03); color: var(--texto-secundario); border: 1px solid rgba(255, 255, 255, 0.04); }
 .text-proximo { background: rgba(230, 202, 163, 0.06); color: var(--abono); border: 1px solid rgba(230, 202, 163, 0.12); }
 .text-alerta { background: rgba(235, 161, 161, 0.08); color: var(--alerta); border: 1px solid rgba(235, 161, 161, 0.15); }
+
 
 /* SECCIÓN CONTENEDORA PARA BOTÓN AÑADIR INTEGRADO */
 .container-boto-afegir { display: flex; justify-content: center; padding: 20px 20px 60px; }
@@ -116,6 +127,7 @@ body {
 }
 .btn-afegir-text:active { background: rgba(255, 255, 255, 0.04); border-color: rgba(255,255,255,0.2); transform: scale(0.97); }
 
+
 /* DETALLE DE EDICIÓN */
 #vista-ficha { display: none; position: fixed; inset: 0; background: var(--bg-principal); z-index: 100; overflow-y: auto; }
 .ficha-header-identificador { position: absolute; top: 28px; left: 80px; right: 24px; z-index: 110; pointer-events: none; }
@@ -125,9 +137,11 @@ body {
 .seccion-pro { background: var(--glass-bg); padding: 22px; border-radius: 14px; margin-bottom: 16px; border: 1px solid var(--glass-border); }
 .input-edit { background: transparent; border: none; color: var(--blanco-puro); font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: 0.05em; width: 100%; outline: none; }
 
+
 /* NOTAS */
 .nota-card { background: rgba(255,255,255,0.01); padding: 16px; border-radius: 10px; margin-bottom: 10px; position: relative; font-size: 0.8rem; border: 1px solid var(--glass-border); line-height: 1.4; color: rgba(255,255,255,0.75); }
 .btn-del-nota { position: absolute; right: 14px; top: 14px; color: var(--alerta); background: none; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.4; }
+
 
 /* MODALES */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,10,12,0.85); z-index: 200; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
@@ -137,9 +151,11 @@ body {
 input, select { width: 100%; padding: 14px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.01); color: white; font-family: inherit; font-size: 0.88rem; outline: none; }
 input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
 
+
 /* BOTONES DE ACCIÓN */
 .btn-accion { width: 100%; padding: 15px; border-radius: 8px; border: 1px solid var(--glass-border); font-weight: 500; margin-top: 12px; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.72rem; background: transparent; color: white; transition: background 0.2s; }
 .btn-accion:active { background: rgba(255,255,255,0.03); }
+
 
 .foto-opcion-row { display: flex; gap: 8px; margin: 12px 0; }
 .btn-foto-op { flex: 1; padding: 12px 6px; border: 1px solid var(--glass-border); background: transparent; color: var(--texto-secundario); border-radius: 6px; font-size: 0.72rem; letter-spacing: 0.05em; font-family: inherit; cursor: pointer; }
@@ -149,6 +165,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
 .emoji-btn.selected { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.03); }
 .btn-cambiar-foto { background: transparent; border: 1px solid var(--glass-border); color: var(--texto-secundario); border-radius: 8px; padding: 12px; font-size: 0.68rem; font-weight: 500; cursor: pointer; margin-top: 10px; width: 100%; text-transform: uppercase; letter-spacing: 0.08em; }
 
+
 .btn-regar-zona { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--glass-border); background: var(--glass-bg); color: var(--blanco-puro); font-family: inherit; font-size: 0.68rem; font-weight: 500; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase; }
 .fecha-edit-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 0.72rem; opacity: 0.6; }
 .fecha-edit-row input[type="date"] { padding: 8px; margin: 0; font-size: 0.72rem; border-radius: 6px; width: auto; flex: 1; color-scheme: dark; }
@@ -156,6 +173,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
 </style>
 </head>
 <body>
+
 
 <!-- VISTA 1: HOME (ZONAS) -->
 <div id="vista-zonas" class="vista active">
@@ -171,6 +189,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
     <button class="btn-afegir-text" onclick="abrirModalZona()">Añadir</button>
   </div>
 </div>
+
 
 <!-- VISTA 2: INTERIOR DE UNA ZONA -->
 <div id="vista-plantas" class="vista">
@@ -190,6 +209,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
   </div>
 </div>
 
+
 <!-- VISTA 3: DETALLE / FICHA -->
 <div id="vista-ficha">
   <button onclick="cerrarFicha()" style="position:fixed; top:24px; left:24px; width:40px; height:40px; border-radius:50%; border:1px solid var(--glass-border); background:rgba(0,0,0,0.4); color:white; z-index:110; cursor:pointer; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);">←</button>
@@ -197,6 +217,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
   <div class="ficha-header-identificador">
     <div id="ficha-nombre-cabecera" class="ficha-identificador-titulo">---</div>
   </div>
+
 
   <img id="ficha-img" class="ficha-hero" src="">
   <div id="ficha-emoji-hero" style="display:none; width:100%; height:42vh; align-items:center; justify-content:center; font-size:5rem; background:rgba(255,255,255,0.01);">📋</div>
@@ -222,6 +243,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
       <button onclick="regarYa()" class="btn-accion" style="border-color:var(--agua); color:var(--agua);">Confirmar Riego Hoy</button>
     </div>
 
+
     <div class="seccion-pro">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
          <span style="color:var(--texto-secundario); font-weight:500; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase;">Frecuencia Abono (Días)</span>
@@ -237,6 +259,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
       <button onclick="abonarYa()" class="btn-accion" style="border-color:var(--abono); color:var(--abono);">Confirmar Abono Hoy</button>
     </div>
 
+
     <div class="seccion-pro">
       <h3 style="margin-bottom:14px; font-family:'Cinzel', serif; font-size:0.85rem; font-weight:400; letter-spacing:0.05em;">Bitácora de Notas</h3>
       <div id="lista-apuntes"></div>
@@ -249,6 +272,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
   </div>
 </div>
 
+
 <!-- MODAL: BACKUP & RESTORE -->
 <div id="modal-config" class="modal-overlay">
   <div class="modal-box">
@@ -259,6 +283,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
     <button onclick="cerrarModales()" style="width:100%; background:none; border:none; color:var(--texto-secundario); margin-top:16px; font-size:0.72rem; letter-spacing:0.05em; cursor:pointer; text-transform:uppercase;">Cerrar</button>
   </div>
 </div>
+
 
 <!-- MODAL: NUEVA ZONA -->
 <div id="modal-zona" class="modal-overlay">
@@ -271,6 +296,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
   </div>
 </div>
 
+
 <!-- MODAL: NUEVA PLANTA -->
 <div id="modal-planta" class="modal-overlay">
   <div class="modal-box" style="max-height:85vh; overflow-y:auto;">
@@ -282,6 +308,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
       <button class="btn-foto-op" id="new-op-emoji" onclick="selModoNueva('emoji')">Icono</button>
     </div>
 
+
     <div id="new-panel-foto">
       <div style="display:flex; gap:8px; margin:12px 0;">
         <label style="flex:1; padding:12px 6px; border:1px solid var(--glass-border); border-radius:6px; text-align:center; font-size:0.68rem; letter-spacing:0.05em; color:white; cursor:pointer; background:rgba(255,255,255,0.01);">CÁMARA<input type="file" accept="image/*" capture="environment" style="display:none" onchange="handleImgSelect(this)"></label>
@@ -290,9 +317,11 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
       <div id="status-img" style="font-size:0.68rem; text-align:center; color:var(--agua); display:none; margin-bottom:10px; letter-spacing:0.05em;">✓ Archivo multimedia vinculado</div>
     </div>
 
+
     <div id="new-panel-emoji" style="display:none;">
       <div class="emoji-grid" id="new-emoji-grid"></div>
     </div>
+
 
     <div style="margin: 14px 0 4px; font-size: 0.62rem; color: var(--texto-secundario); text-transform: uppercase; letter-spacing: 0.08em;">Ciclos estimados (Días):</div>
     <div style="display:flex; gap:8px;">
@@ -300,12 +329,14 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
       <input type="number" id="ins-freq-abono" placeholder="Abono" value="30">
     </div>
 
+
     <div style="display:flex; gap:10px; margin-top:24px;">
       <button onclick="cerrarModales()" style="flex:1; padding:12px; background:transparent; border:1px solid var(--glass-border); color:white; border-radius:8px; font-size:0.72rem; letter-spacing:0.05em; cursor:pointer; text-transform:uppercase;">Volver</button>
       <button onclick="addPlant()" style="flex:1; padding:12px; background:transparent; border:1px solid rgba(255,255,255,0.2); color:white; border-radius:8px; font-weight:500; font-size:0.72rem; letter-spacing:0.05em; cursor:pointer; text-transform:uppercase;">Registrar</button>
     </div>
   </div>
 </div>
+
 
 <!-- MODAL: MULTIMEDIA EN FICHA -->
 <div id="modal-cambiar-foto" class="modal-overlay">
@@ -332,6 +363,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
   </div>
 </div>
 
+
 <!-- MODAL NOTIFICACIONES -->
 <div id="modal-mensaje" class="modal-overlay">
   <div class="modal-box" style="text-align:center;">
@@ -341,6 +373,7 @@ input:focus, select:focus { border-color: rgba(255,255,255,0.2); }
   </div>
 </div>
 
+
 <script>
 let db;
 let selectedImgData = null;
@@ -349,6 +382,7 @@ let modoNueva = 'foto';
 let zonaActual = '';
 let currentFichaId = null;
 const EMOJIS = ['🌿','🌸','🌹','🌷','🌻','💐','🌺','🍃','🌱','🌵','🪴','🌳','🌴','🍋','🍊','🍓','🫒','🎋','💜','🤍','🍀','🌼','🌾','🌝','🫧'];
+
 
 let _resolverMensaje = null;
 function mostrarMensaje(texto, opciones = {}) {
@@ -376,6 +410,7 @@ function cerrarMensaje(resultado) {
     if (_resolverMensaje) { _resolverMensaje(resultado); _resolverMensaje = null; }
 }
 
+
 function iniciarApp() {
     const request = indexedDB.open('JardinRaulDB_v3', 5);
     request.onupgradeneeded = e => {
@@ -385,6 +420,7 @@ function iniciarApp() {
     };
     request.onsuccess = e => { db = e.target.result; comprobarZonasBase(); };
 }
+
 
 function comprobarZonasBase() {
     db.transaction(['zonas'], 'readonly').objectStore('zonas').getAll().onsuccess = e => {
@@ -399,11 +435,13 @@ function comprobarZonasBase() {
     };
 }
 
+
 function navegarA(vista) {
     document.querySelectorAll('.vista').forEach(v => v.classList.remove('active'));
     document.getElementById('vista-' + vista).classList.add('active');
     if(vista === 'zonas') cargarZonas();
 }
+
 
 function cargarZonas() {
     const cont = document.getElementById('grid-zonas');
@@ -431,6 +469,7 @@ function cargarZonas() {
     };
 }
 
+
 function entrarZona(nombre) {
     zonaActual = nombre;
     document.getElementById('titulo-zona').textContent = nombre;
@@ -438,8 +477,10 @@ function entrarZona(nombre) {
     navegarA('plantas');
 }
 
+
 function abrirModalZona() { document.getElementById('modal-zona').style.display = 'flex'; }
 function abrirModalConfig() { document.getElementById('modal-config').style.display = 'flex'; }
+
 
 function crearZona() {
     const nombre = document.getElementById('z-nombre').value.trim();
@@ -450,7 +491,9 @@ function crearZona() {
     };
 }
 
+
 function daysSince(iso) { return Math.floor(Math.abs(new Date()-new Date(iso))/86400000); }
+
 
 function renderPlantas() {
     const cont = document.getElementById('grid-plantas');
@@ -476,6 +519,7 @@ function renderPlantas() {
                 txtAlertaHTML = `<div class="badge-texto-status text-proximo">Próximo</div>`;
             }
 
+
             cont.innerHTML += `
             <div class="card-premium card-planta" onclick="abrirFicha('${p.id}')">
                 ${imgHTML}
@@ -491,6 +535,7 @@ function renderPlantas() {
         });
     };
 }
+
 
 function selModoNueva(modo) {
     modoNueva = modo;
@@ -517,10 +562,12 @@ function handleImgSelect(input) {
     }
 }
 
+
 function abrirModalPlanta() { 
     document.getElementById('modal-planta').style.display = 'flex'; 
     selModoNueva('foto');
 }
+
 
 function addPlant() {
     const name = document.getElementById('ins-nombre').value.trim();
@@ -549,6 +596,7 @@ function addPlant() {
     };
 }
 
+
 function abrirFicha(id) {
     currentFichaId = id;
     db.transaction(['plantas']).objectStore('plantas').get(id).onsuccess = e => {
@@ -575,6 +623,7 @@ function abrirFicha(id) {
     };
 }
 
+
 function saveEdit() {
     const newName = document.getElementById('edit-nombre').value.trim();
     const newCat = document.getElementById('edit-cat').value;
@@ -589,11 +638,13 @@ function saveEdit() {
     });
 }
 
+
 function updatePlantaData(callback, onFinish) {
     const tx = db.transaction(['plantas'], 'readwrite');
     const store = tx.objectStore('plantas');
     store.get(currentFichaId).onsuccess = e => { const p = e.target.result; callback(p); store.put(p); tx.oncomplete = onFinish; };
 }
+
 
 function regarYa() {
     updatePlantaData(p => {
@@ -601,6 +652,7 @@ function regarYa() {
         p.fechaRiego = new Date().toLocaleDateString('es-ES', {day:'2-digit', month:'2-digit'});
     }, () => abrirFicha(currentFichaId));
 }
+
 
 function abonarYa() {
     const abonoUsado = document.getElementById('tipo-abono-input').value.trim() || 'Genérico';
@@ -611,6 +663,7 @@ function abonarYa() {
     }, () => { document.getElementById('tipo-abono-input').value = ''; abrirFicha(currentFichaId); });
 }
 
+
 function editarFechaRiego() {
     const val = document.getElementById('fecha-riego-edit').value;
     if(!val) return;
@@ -619,6 +672,7 @@ function editarFechaRiego() {
     updatePlantaData(p => { p.lastWatered = iso; p.fechaRiego = fechaCorta; }, () => abrirFicha(currentFichaId));
 }
 
+
 function editarFechaAbono() {
     const val = document.getElementById('fecha-abono-edit').value;
     if(!val) return;
@@ -626,6 +680,7 @@ function editarFechaAbono() {
     const fechaCorta = new Date(val + 'T12:00:00').toLocaleDateString('es-ES', {day:'2-digit', month:'2-digit'});
     updatePlantaData(p => { p.lastFertilized = iso; p.fechaAbono = fechaCorta; }, () => abrirFicha(currentFichaId));
 }
+
 
 function renderNotas(notes) {
     document.getElementById('lista-apuntes').innerHTML = notes.map((n, index) => `
@@ -636,6 +691,7 @@ function renderNotas(notes) {
         </div>`).join('');
 }
 
+
 function addNota() {
     const texto = document.getElementById('nueva-nota').value.trim();
     if(!texto) return;
@@ -645,10 +701,12 @@ function addNota() {
     }, () => { document.getElementById('nueva-nota').value=''; abrirFicha(currentFichaId); });
 }
 
+
 async function deleteNota(index) {
     const ok = await mostrarMensaje("¿Remover esta nota de la bitácora?", {tipo:'confirm', icono:'🗑️'});
     if (ok) updatePlantaData(p => { p.notas.splice(index, 1); }, () => abrirFicha(currentFichaId));
 }
+
 
 async function eliminarPlanta() {
     const ok = await mostrarMensaje("¿Confirms que deseas archivar y borrar este espécimen?", {tipo:'confirm', icono:'🗑️'});
@@ -658,6 +716,7 @@ async function eliminarPlanta() {
         tx.oncomplete = () => { cerrarFicha(); };
     }
 }
+
 
 async function regarZonaCompleta() {
     const ok = await mostrarMensaje(`¿Registrar ciclo completo para la zona "${zonaActual}"?`, {tipo:'confirm', icono:'💧'});
@@ -672,6 +731,7 @@ async function regarZonaCompleta() {
         tx.oncomplete = () => renderPlantas();
     };
 }
+
 
 let modoCambio = 'foto'; let nuevaFotoData = null; let nuevoEmojiSeleccionado = null;
 function abrirModalCambiarFoto() {
@@ -706,6 +766,7 @@ function guardarCambioImagen() {
     }, () => { cerrarModales(); abrirFicha(currentFichaId); });
 }
 
+
 function exportarDatos() {
     const backup = { plantas: [], zonas: [] };
     db.transaction(['plantas'], 'readonly').objectStore('plantas').getAll().onsuccess = e1 => {
@@ -724,6 +785,7 @@ function exportarDatos() {
     };
 }
 
+
 function importarDatos(input) {
     if (!input.files || !input.files[0]) return;
     const reader = new FileReader();
@@ -735,17 +797,20 @@ function importarDatos(input) {
             const conf = await mostrarMensaje("¿Importar datos? Esto sustituirá la colección actual.", {tipo: 'confirm', icono: '⚠️'});
             if (!conf) return;
 
+
             const txZ = db.transaction(['zonas'], 'readwrite');
             const storeZ = txZ.objectStore('zonas');
             storeZ.clear().onsuccess = () => {
                 data.zonas.forEach(z => storeZ.add(z));
             };
 
+
             const txP = db.transaction(['plantas'], 'readwrite');
             const storeP = txP.objectStore('plantas');
             storeP.clear().onsuccess = () => {
                 data.plantas.forEach(p => storeP.add(p));
             };
+
 
             txP.oncomplete = () => {
                 cerrarModales();
@@ -759,10 +824,13 @@ function importarDatos(input) {
     reader.readAsText(input.files[0]);
 }
 
+
 function cerrarFicha() { document.getElementById('vista-ficha').style.display = 'none'; renderPlantas(); }
 function cerrarModales() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
 
+
 iniciarApp();
+
 
 // Registro del Service Worker para capacidades PWA y soporte offline
 if ('serviceWorker' in navigator) {
